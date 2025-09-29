@@ -55,7 +55,7 @@ def app():
     st.markdown("### 📊 Dataset Preview")
     demo = data_generators.generate_crop_image(seed=seed)
 
-    rgb = np.dstack([demo["RED"], demo["GREEN"], demo["BLUE"]])
+    rgb = np.dstack([demo["red"], demo["green"], demo["blue"]])
     col1, col2 = st.columns(2)
     with col1:
         st.image(
@@ -65,7 +65,7 @@ def app():
         )
     with col2:
         fig = px.imshow(
-            demo["NDVI"], color_continuous_scale="RdYlGn", title="Synthetic NDVI"
+            demo["ndvi"], color_continuous_scale="RdYlGn", title="Synthetic NDVI"
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -119,10 +119,11 @@ def app():
                 ax_cm.text(j, i, int(val), ha="center", va="center", color="black")
             st.pyplot(fig_cm)
 
-            st.subheader("🌟 Feature Importances")
+            # ✅ FIX: Dynamic feature names
+            feature_names = [f"f{i}" for i in range(X.shape[1])]
             fi_df = pd.DataFrame(
                 {
-                    "Feature": ["RED", "GREEN", "BLUE", "NIR", "NDVI"],
+                    "Feature": feature_names,
                     "Importance": clf.feature_importances_,
                 }
             ).sort_values("Importance", ascending=False)
@@ -140,7 +141,7 @@ def app():
             if not TF_AVAILABLE:
                 st.error("❌ TensorFlow is not available in this deployment. CNN cannot run.")
             else:
-                X = np.dstack([demo["RED"], demo["GREEN"], demo["BLUE"], demo["NIR"]])
+                X = np.dstack([demo["red"], demo["green"], demo["blue"], demo["nir"]])
                 y = demo["labels"]
                 X = np.expand_dims(X, axis=0)
                 y = np.expand_dims(y, axis=0)
