@@ -9,4 +9,4 @@ fpdf
 Pillow
 requests
 # Optional (for CNN/LSTM). Install only if you plan to use deep models.
- tensorflow
+#  tensorflow
