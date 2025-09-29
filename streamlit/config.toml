@@ -1,0 +1,31 @@
+# ---------------------------
+# Streamlit Theme Customization
+# ---------------------------
+[theme]
+primaryColor = "#2E7D32"             # Deep Green (agriculture feel)
+backgroundColor = "#F9FBE7"          # Light eco-friendly background
+secondaryBackgroundColor = "#E8F5E9" # Softer panel background
+textColor = "#1B5E20"                # Dark green for text
+font = "sans serif"                  # Clean modern font
+
+# ---------------------------
+# Server Settings
+# ---------------------------
+[server]
+headless = true
+enableCORS = false
+enableXsrfProtection = true
+port = 8501
+
+# ---------------------------
+# Browser Tab Customization
+# ---------------------------
+[browser]
+gatherUsageStats = false
+serverAddress = "localhost"
+
+# ---------------------------
+# Client Display Settings
+# ---------------------------
+[client]
+toolbarMode = "minimal"              # Hide extra UI buttons for clean demo

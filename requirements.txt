@@ -1,0 +1,11 @@
+streamlit>=1.18.0
+numpy
+pandas
+matplotlib
+plotly
+scikit-learn
+fpdf
+Pillow
+requests
+# Optional (for CNN/LSTM). Install only if you plan to use deep models.
+ tensorflow
