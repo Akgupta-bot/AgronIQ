@@ -14,9 +14,21 @@ from streamlit_webrtc import webrtc_streamer, WebRtcMode
 # ------------------------
 # Utility Functions
 # ------------------------
+def get_band(crop, *keys):
+    """Safely fetch a band using possible key variations."""
+    for k in keys:
+        if k in crop:
+            return crop[k]
+    st.error(f"⚠️ Missing keys {keys}. Available: {list(crop.keys())}")
+    return np.zeros((64, 64))  # fallback blank image
+
+
 def compute_spectral_indices(crop):
-    """Compute NDVI, NDWI, SAVI, GCI from synthetic crop bands (uppercase keys)."""
-    red, green, blue, nir = crop["RED"], crop["GREEN"], crop["BLUE"], crop["NIR"]
+    """Compute NDVI, NDWI, SAVI, GCI from crop bands."""
+    red   = get_band(crop, "Red", "RED", "red", "R")
+    green = get_band(crop, "Green", "GREEN", "green", "G")
+    blue  = get_band(crop, "Blue", "BLUE", "blue", "B")
+    nir   = get_band(crop, "NIR", "nir")
 
     ndvi = (nir - red) / (nir + red + 1e-6)
     ndwi = (green - nir) / (green + nir + 1e-6)
@@ -80,8 +92,12 @@ def app():
             plots.append((crop_i, soil_i))
 
             with cols[i]:
+                red   = get_band(crop_i, "Red", "RED", "red", "R")
+                green = get_band(crop_i, "Green", "GREEN", "green", "G")
+                blue  = get_band(crop_i, "Blue", "BLUE", "blue", "B")
+
                 st.image(
-                    (np.dstack([crop_i["RED"], crop_i["GREEN"], crop_i["BLUE"]]) * 255).astype(np.uint8),
+                    (np.dstack([red, green, blue]) * 255).astype(np.uint8),
                     caption=f"Plot {i+1}",
                     use_container_width=True,
                 )
